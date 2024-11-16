@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  python-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: OpenStudio
+    environment:
+      - DISPLAY=:0
+      - QT_X11_NO_MITSHM=1
+      - WAYLAND_DISPLAY=$WAYLAND_DISPLAY
+      - XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+    network_mode: host
+    working_dir: /app
+    command: ["python3", "app.py"]
+    devices:
+      - "/dev/dri:/dev/dri"
